@@ -1,0 +1,91 @@
+float x=500;
+float y=400;
+float d=50;
+float sx=3.75;
+float sy=3.755;
+float ky=400;
+int ks=10;
+int score1=0;
+int score2=0;
+
+void setup(){
+  size(1000,800);
+}
+
+void draw(){
+  background(255);
+  fill(50,50,50);
+  ellipse(x,y,d,d);
+  x=x+sx;
+  y=y+sy;
+  if(x-d/2<0 || x+d/2>width){
+    sx=-sx;
+  }
+  if(y-d/2<0 || y+d/2>height){
+    sy=-sy;
+  }
+  
+  fill(50,50,50);
+  rectMode(CENTER);
+  rect(987.5,mouseY,25,100);
+  
+  if(y<=mouseY+50){
+    if(y>=mouseY-50){
+      if(x>=962.5){
+        sx=-sx;
+      }
+    }
+  }
+  if(y<=ky+50){
+    if(y>=ky-50){
+      if(x<=37.5){
+        sx=-sx;
+      }
+    }
+  }
+  
+  rect(12.5,ky,25,100);
+  
+  textSize(50);
+  text(score1,250,100);
+  text(score2,750,100);
+  
+  
+  if(x-d/2<0){
+    score2=score2+1;
+    x=500;
+    y=400;
+  }
+  if(x+d/2>1000){
+    score1=score1+1;
+    x=500;
+    y=400;
+  }
+  
+  textAlign(CENTER);
+ 
+  if(score1>=5){
+    text("Player 1 wins!",500,200);
+    sx=0;
+    sy=0;
+  }
+  if(score2>=5){
+    text("Player 2 wins!",500,200);
+    sx=0;
+    sy=0;
+  }
+}
+
+void keyPressed(){
+  if(key==CODED){
+    if(keyCode==UP){
+      ky=ky-10;
+    }
+  }
+  if(key==CODED){
+    if(keyCode==DOWN){
+      ky=ky+10;
+    }
+  }
+}
+  
