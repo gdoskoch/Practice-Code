@@ -1,0 +1,33 @@
+float x=0;
+float y=0;
+float z=0;
+
+
+void setup(){
+  
+}
+
+void draw(){
+  println(x);
+  println(y);
+  println(z);
+  println(quadraticFormulaPlus(1,-4,4));
+  println(quadraticFormulaMinus(1,-4,4));
+}
+
+float quadraticFormulaPlus(float a, float b, float c){
+  float result = (-b+sqrt(b*b-4*a*c))/(2*a);
+  x=a;
+  y=b;
+  z=c;
+  return result;
+}
+
+float quadraticFormulaMinus(float a, float b, float c){
+  float result = (-b-sqrt(b*b-4*a*c))/(2*a);
+  x=a;
+  y=b;
+  z=c;
+  return result;
+}
+
