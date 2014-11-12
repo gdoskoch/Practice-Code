@@ -1,0 +1,38 @@
+int sxp=600;
+int syp=500;
+int sxc=400;
+int syc=300;
+int count=10;
+
+float[] xp = new float[count];
+float[] yp = new float[count];
+float[] xc = new float[count];
+float[] yc = new float[count];
+
+void setup(){
+  size(1000,800);
+  for(int i = count - 1; i > 0; i--){
+    xp[i]=mouseX;
+    yp[i]=mouseY;
+  }
+}
+
+void draw(){
+  background(0);
+
+  for(int i = 0; i < count - 1; i++){
+    xp[i]=xp[i+1];
+    yp[i]=yp[i+1];
+    xc[i]=xc[i+1];
+    yc[i]=yc[i+1];
+  }
+  
+  xp[count-1]=sxp;
+  yp[count-1]=syp;
+  xc[count-1]=sxc;
+  yc[count-1]=syc;
+  
+  for(int i = count - 1; i > 0; i--){
+    fill(i*10+50,i*10+50,i*10+50);
+    ellipse(xp[i],yp[i],i*10+1,i*10+1);
+  }
