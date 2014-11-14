@@ -1,0 +1,60 @@
+float y=100; //y-position.
+float x=750; //x-position.
+float yDir=0; //y-velocity.
+float yDirDir=+.075; //v-acceleration.
+float xDir=0; //x-velocity.
+float rx=950;  //To be used later.
+float rxDir=-5; //To be used later.
+
+
+void setup() {
+  size(1000,750);
+}
+
+void draw() {
+  background(255,255,255);
+  ellipse(x,y,50,50); //This is the ball
+  
+  //The rest of the "void draw" section focuses on acceleration, except for the last line. Note: The "+.075" here is added in to ensure an inelastic collision - that is, that the velocity afterward is less than the velocity beforehand, in magnitude. Makes it more realistic.
+  if (yDir>0) {
+    y=y+yDir;
+    yDir=yDir+.075;
+  }
+  if (yDir<0) {
+    y=y+yDir;
+    yDir=yDir+.075;
+  }
+  yDir=yDir+yDirDir;
+  if (y>=725) {
+    yDir=-yDir+.075;
+  }
+  else {
+    yDir=yDir+.075;
+  }
+  if (yDir<0) {
+    yDir=yDir+.075;
+  }
+  
+  //Governs motion in the x-direction if the ball is touching the ground.
+  x=x+xDir;
+}
+
+// Allows the user to move the ball up by clicking the mouse. Temporarily counteracts the force of gravity. Warning: if the ball is moving upwards, this may reduce its velocity.
+void mouseClicked() {
+  yDir=-5;
+}
+
+//Would allow the user to move the ball left or right if the ball was touching the ground. Still in development.
+void keyPressed() {
+  if(y>=725){  
+    if (key == CODED) {
+      if (keyCode == RIGHT) {
+        xDir = +1;
+      } else if (keyCode == LEFT) {
+        xDir = -1;
+      } 
+    } else {
+      xDir = 0;
+    }
+  }
+}
