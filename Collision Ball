@@ -1,0 +1,50 @@
+//Declare loc,vel,acc
+PVector loc,vel,acc;
+float sz=70;
+
+PVector mouse;
+
+void setup(){
+  size(800,600);
+  //Initialize loc,vel,acc
+  loc = new PVector(width/2,height/2);
+  vel = PVector.random2D(); //Random unit vector
+  acc = new PVector(0,0);
+  mouse = new PVector(mouseX,mouseY);
+  noCursor();
+}
+
+void draw(){
+  background(0);
+  
+  //Move Ball
+  vel.add(acc);
+  loc.add(vel);
+  
+  //Draw Ball
+  ellipse(loc.x,loc.y,sz,sz);
+  
+  //Bounce Ball
+  if(loc.x+sz/2>width || loc.x-sz/2<0){
+    vel.x*=-1;
+  }
+  if(loc.y+sz/2>height || loc.y-sz/2<0){
+    vel.y*=-1;
+  }
+  
+  //Draw a small circle to indicate mouse locaiton
+  ellipse(mouseX,mouseY,5,5);
+  
+  //Check to see if the mouse is inside the circle
+  if(dist(mouseX,mouseY,loc.x,loc.y)<sz/2){
+    sz=sz*3/4; //If yes, make circle three-fourths the original size
+  }
+  else{
+    sz=sz; //If not, keep the size the same
+  }
+  
+  //Make the circle its original size
+  if(mousePressed==true){
+    sz=70;
+  }
+}
