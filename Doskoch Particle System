@@ -1,0 +1,137 @@
+////////////////////////////////////////////////////////
+// Here, a simulator for a stellar system is outlined //
+// At the moment, it consists of one central body and //
+// many smaller orbiting bodies. However, in the      //
+// future, more large bodies may be added, and so the //
+// framwework for the advanced simulator is partially //
+// here. Sections designated as "*empty" are parts of //
+// this later simulator, and are not necessary here.  //
+////////////////////////////////////////////////////////
+
+//Define central body
+Star h;
+
+//Define small orbiting bodies (treated as cosmic dust)
+ArrayList<Dust> allDust = new ArrayList<Dust>();
+
+//Define central body
+ArrayList<Star> allStar = new ArrayList<Star>();
+
+void setup() {
+  size(800, 800);
+
+  //Define central body
+  s = new Star();
+}
+
+void draw() {
+  //Eliminate outlines
+  strokeWeight(0);
+
+  //Add new dust particles
+  if (mousePressed) {
+    allDust.add(new Dust());
+  }
+
+  //Background is white
+  background(255, 255, 255);
+
+  //Add in new dust particles
+  for (int i = allDust.size ()-1; i >= 0; i--) {
+    Dust currentDust = allDust.get(i);
+    currentDust.display();
+    currentDust.move();
+    currentDust.accelerate(s);
+  }
+
+  //Add in central star
+  for (int i = allStar.size ()-1; i >= 0; i--) {
+    Star currentStar = allStar.get(i);
+    currentStar.displayp();
+    currentStar.movep();
+  }
+
+  //Draw central planet
+  ellipse(400, 400, 25, 25);
+}
+
+////////////////////////////////////////////////////////
+// The following is a class created for modelling     //
+// dust in a protoplanetary disk around the star.     //
+////////////////////////////////////////////////////////
+
+//Establish properties of dust in a class
+class Dust {
+  //Declare variables for location, velocity, acceleration and size
+  PVector location, velocity, acceleration;
+  float size;
+
+  Dust() {
+    //Define location, velocity, acceleration and size
+    location = new PVector(random(300, 500), random(300, 500));
+    velocity = new PVector(random(-2, 2), random(-2, 2));
+    acceleration = new PVector(0, .1);
+    size = 10;
+  }
+
+  //Display dust particles
+  void display() {
+    fill(60, 60, 60);
+    ellipse(location.x, location.y, size, size);
+  }
+
+  //Move the dust particle
+  void move() {
+    velocity.add(acceleration);
+    location.add(velocity);
+  }
+
+  //Accelerate the dust particles toward the central body
+  void accelerate(Planet earth) { 
+    acceleration = PVector.sub(earth.location, location); 
+    acceleration.setMag(.1);
+  }
+}
+
+////////////////////////////////////////////////////////
+// A class is created for stars rather than just      //
+// making one because of the need for more bodies in  //
+// a future simulator. It would be much simpler to    //
+// just make one at the moment, but the framework for //
+// the more advanced program is already in place. An  //
+// approach that could be inserted manually would be  //
+// to create a class for each star  . This would be a //
+// copying-and-pasting job for two stars   which      //
+// could be done within minutes, but if more stars    //
+// than that are inserted, it is easier to make one   //
+// class. On a scientific endnote, a system with all  //
+// of these stars would be incredibly unstable!
+////////////////////////////////////////////////////////
+
+//Establish properties of star in a class
+class Star { 
+  PVector location;
+  PVector velocity;
+  PVector acceleration;
+  float size; 
+
+  Star() {
+    //Define location, velocity, acceleration and size
+    location = new PVector(400, 400);
+    velocity = new PVector(0, 0);
+    acceleration = new PVector(0, 0);
+    size = 25;
+  } 
+
+  //Display point towards which the dust particles will accelerate
+  void displayp() { 
+    fill(67, 89, 34);  
+    ellipse(location.x, location.y, size, size);
+  }
+
+  //*empty
+  void movep() {
+    velocity.add(acceleration);
+    location.add(velocity);
+  }
+}
